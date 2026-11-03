@@ -106,15 +106,24 @@ zm_slaylist_times.gsc is needed due to times of new songs varying from the defau
 
 FULL CREDITS:
 @aspect.of.autumn	       | BO2 Eternal Perk, BO3 Level Up, BO4 TEDD Task, BOCW Exfil, Non-ZM SFX. BO1/2/3/SOE Alternative perk packs. "Better Slaylist". zm_armor_health_rework.gsc, zm_classic_behavior.gsc.
+
 @.rezerorem		       	   | BO1 announcer, Ray Gun, Round Change; BO2 fire sale, Origins Box; BO3 last stand; classic box jingle, power ups, Quick Revive jingle, special round; Zombie SFX
+
 @niceornotnice  	       | BO1 1911, Dreadful Dresden, Miserable Bastille, Stormwrought Pantheon; BO2 AN94, MK35 ISR, Ray Gun MK2, VS Recon; BO3 VMP; BO4 Round Change, Classic Pack-A-Punch gun; WAW PPSH SFX. BO3/SOE perk packs.
+
 @siguess420		      	   | Damned 100AE, BO1/2 Alternative perk packs.
+
 @phdflopperguy5		       | BO3/SOE/BO4 powerup packs, BO4 perk pack
+
 @mistergeneric		       | Classic style game over music.
-@i0v		      	       | zm_armor_health_rework.gsc.
-@doefiend		       	   | BO2 Alternative perk pack.
+
+@i0v		      	         | zm_armor_health_rework.gsc.
+
+@doefiend		       	     | BO2 Alternative perk pack.
+
 @grum_sudo		       	   | zm_classic_behavior.gsc.
-@TheVanguardShinobi	       | Extensive testing.
+
+@TheVanguardShinobi	     | Extensive testing.
 
 
 ---- TO-DO BEFORE REV 2 ----
