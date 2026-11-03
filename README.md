@@ -84,7 +84,7 @@ zm_slaylist_times.gsc is needed due to times of new songs varying from the defau
 
 ----------- Scripts Folder Breakdown -----------
 
----- zm_armor_health_rework.gsc ---
+---- zm_armor_health_rework.gsc ----
 - Armor and Health system reworked! Made with code snippets from @grum_sudo and @i0v
 - BO3 health and damage values, with no damage scaling. 
 - Armor now always functions as if Turtle Shell was on.
