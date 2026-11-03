@@ -36,33 +36,33 @@ This mod's GSCs were assisted by AI; specifically in finding the correct functio
 - Replaces the zombie noises with those from Zombies Chronicles
 
 ---- Zombies Better Slaylist ----
-- All Slaylist songs have been replaced! The new songs are:
+All Slaylist songs have been replaced! The new songs are:
 
-- The One		 	| Elena Siegman, Kevin Sherwood			 	 | Shi No Numa
-- Beauty of Annihilation 	| Elena Siegman, Kevin Sherwood			 	 | Der Riese 
-- 115 			 	| Elena Siegman, Kevin Sherwood			 	 | Kino Der Toten
-- Abracadavre 		 	| Elena Siegman, Kevin Sherwood			 	 | Ascencion
-- Not Ready To Die	 	| Avenged Sevenfold					 | Call of the Dead
-- Pareidolia 		 	| Elena Siegman, Kevin Sherwood				 | Shangri-La 
-- Nightmare 		 	| Avenged Sevenfold					 | Moon
-- Carrion		 	| Clark S. Nova, Kevin Sherwood			 	 | Tranzit
-- Shepherd of Fire	 	| Avenged Sevenfold					 | Origins
-- Archangel		 	| Elena Siegman, Malukah, Clark S. Nova, Kevin Sherwood  | Origins
-- Snakeskin Boots	 	| Rick Riso, Jack Wall					 | Shadows of Evil
-- The Gift		 	| Elena Siegman, Kevin Sherwood			 	 | Revelations
-- Drowning		 	| Malukah, Kevin Sherwood				 | Voyage of Despair
-- Mystery		 	| Elena Siegman, Kevin Sherwood				 | Dead of the Night
-- Alone			 	| Clark S. Nova, Kevin Sherwood			 	 | Die Maschine
-- Destroy Something Beautiful	| Cristina Scabbia, Kevin Sherwood			 | Liberty Falls
-- Slave				| Vicky Psarakis, Kevin Sherwood			 | Citadelle Des Morts
-- Falling to Pieces		| Malukah, Kevin Sherwood				 | Shattered Veil
-- Remember Us			| Elena Siegman, Kevin Sherwood				 | Reckoning
-- Turn to Ashes			| Elena Siegman, Kevin Sherwood				 | Ashes of the Damned
-- Come Back Down		| Megan Rice, Kevin Sherwood				 | Paradox Junction
-- No One There			| Vicky Psarakis, Kevin Sherwood			 | Totenreich
-- Evencry			| Malukah, Cole Rolland, Kevin Sherwood			 | Kowakujo
+- The One		 	                | Elena Siegman, Kevin Sherwood			                   	 | Shi No Numa
+- Beauty of Annihilation     	| Elena Siegman, Kevin Sherwood			                   	 | Der Riese 
+- 115 			                 	| Elena Siegman, Kevin Sherwood			 	                   | Kino Der Toten
+- Abracadavre 		           	| Elena Siegman, Kevin Sherwood			 	                   | Ascencion
+- Not Ready To Die	 	        | Avenged Sevenfold					                             | Call of the Dead
+- Pareidolia 		 	            | Elena Siegman, Kevin Sherwood				                   | Shangri-La 
+- Nightmare 		             	| Avenged Sevenfold					                             | Moon
+- Carrion		                 	| Clark S. Nova, Kevin Sherwood			 	                   | Tranzit
+- Shepherd of Fire	 	        | Avenged Sevenfold					                             | Origins
+- Archangel		 	              | Elena Siegman, Malukah, Clark S. Nova, Kevin Sherwood  | Origins
+- Snakeskin Boots	 	          | Rick Riso, Jack Wall					                         | Shadows of Evil
+- The Gift		 	              | Elena Siegman, Kevin Sherwood			 	                   | Revelations
+- Drowning		 	              | Malukah, Kevin Sherwood				                         | Voyage of Despair
+- Mystery		 	                | Elena Siegman, Kevin Sherwood				                   | Dead of the Night
+- Alone			 	                | Clark S. Nova, Kevin Sherwood			 	                   | Die Maschine
+- Destroy Something Beautiful	| Cristina Scabbia, Kevin Sherwood			                 | Liberty Falls
+- Slave				                | Vicky Psarakis, Kevin Sherwood			                   | Citadelle Des Morts
+- Falling to Pieces		        | Malukah, Kevin Sherwood				                         | Shattered Veil
+- Remember Us			            | Elena Siegman, Kevin Sherwood				                   | Reckoning
+- Turn to Ashes			          | Elena Siegman, Kevin Sherwood				                   | Ashes of the Damned
+- Come Back Down		          | Megan Rice, Kevin Sherwood			                     	 | Paradox Junction
+- No One There			          | Vicky Psarakis, Kevin Sherwood			                   | Totenreich
+- Evencry			                | Malukah, Cole Rolland, Kevin Sherwood			             | Kowakujo
 
-- zm_slaylist_times.gsc is needed due to times of new songs varying from the default ones.
+zm_slaylist_times.gsc is needed due to times of new songs varying from the default ones.
 
 
 ----------- Images Folder Breakdown -----------
