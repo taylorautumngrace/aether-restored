@@ -36,6 +36,9 @@ This mod's GSCs were assisted by AI; specifically in finding the correct functio
 - Replaced Damned 8 with Damned 100AE
 - Replaces the Bloodthirsty Papasha SFX with that of the WAW PPSH.
 - Replaces the zombie noises with those from Zombies Chronicles
+- Replaces the FG42 SFX with that of the WAW version.
+- Replaces the powerup SFX with that of Zombie Chronicles.
+
 
 ---- Zombies Better Slaylist ----
 
