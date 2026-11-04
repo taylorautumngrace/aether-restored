@@ -94,6 +94,7 @@ zm_slaylist_times.gsc is needed due to times of new songs varying from the defau
 - Turtle Shell now makes armor slowly regenerate over time -  6.5 second delay and a tick of every 0.35 seconds.
 - Armormatic has been reworked to be a 50% armor plate heal, over the default 20%.
 - T2 armor now costs 5000. T3/Golden armor no longer exists: buying armor again at T2 refills it instead of upgrading.
+- Tweaked Boss/Elite/Special damage.
 
 ---- zm_classic_behavior.gsc ----
 - All armored zombies have been removed from the spawn pool; for the time being, this includes the Agni zombies on Kowakujo.
@@ -129,11 +130,10 @@ FULL CREDITS:
 
 
 ---- TO-DO BEFORE REV 2 ----
-- Tweaked Boss/Elite/Special damage in "Armor and Health Rework".
 - Ability to buy the eternal version of a perk you own from that perk's own machine for 10000 in "Classic-like Perks"
 - Survival maps have reduced Wunderfizz prices in "Classic-Like Perks"
 - Create and integrate a "Disabled Crafting Table" GSC.
 - Create and integrate "Better Perks" GSC.
 - Create and integrate "Gobblegum Tweaks" GSC.
 - Classic AI/Spawning, Agni restoration in "Classic Zombie Behavior".
-- Potential bug fixes from Revision 1.
+- Potential bug fixes from Version 1.
