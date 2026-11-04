@@ -107,6 +107,7 @@ zm_slaylist_times.gsc is needed due to times of new songs varying from the defau
 - Perks now have their BO3 prices, except for Elemental Pop (3500), Wisp Tea (2000), and Death Perception (2000).
 - Wunderfizz is now random, and costs 3500 per perk.
 - Once a player has every perk, you can return to the Wunderfizz and buy a random eternal perk for 8000.
+- Once a player has every perk, you can return to a perk machine and buy that eternal perk for 10000.
 
 
 FULL CREDITS:
@@ -133,7 +134,6 @@ FULL CREDITS:
 
 
 ---- TO-DO BEFORE REV 2 ----
-- Ability to buy the eternal version of a perk you own from that perk's own machine for 10000 in "Classic-like Perks"
 - Survival maps have reduced Wunderfizz prices in "Classic-Like Perks"
 - Create and integrate a "Disabled Crafting Table" GSC.
 - Create and integrate "Better Perks" GSC.
