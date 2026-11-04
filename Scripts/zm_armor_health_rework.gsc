@@ -106,8 +106,6 @@ function private on_player_spawned( params )
     self thread zm_armor_regen_loop();
 }
 
-// Players only start a game with no armor. Past round one a spawn is a loaded save (or a respawn / late join,
-// which already start without armor through maintain_no_starting_armor), so their armor is left alone.
 function private zm_is_game_start()
 {
     return ( level.round_number ?? 1 ) <= 1;
@@ -120,10 +118,27 @@ function private clear_spawn_armor()
 
     if ( !zm_is_game_start() )
     {
-        if ( ( self.armorhealth ?? 0 ) > 0 )
+        if ( ( self.platecarrierlevel ?? 1 ) >= 2 )
         {
-            // Keep treating them as owning an armor carrier (T2 pricing, etc).
             self.fresh_armor_bought_this_life = 1;
+            return;
+        }
+
+        if ( !self.fresh_armor_bought_this_life )
+        {
+            self force_armor_zero();
+        }
+        wait 0.50;
+
+        if ( ( self.platecarrierlevel ?? 1 ) >= 2 )
+        {
+            self.fresh_armor_bought_this_life = 1;
+            return;
+        }
+
+        if ( !self.fresh_armor_bought_this_life )
+        {
+            self force_armor_zero();
         }
         return;
     }
@@ -136,6 +151,16 @@ function private clear_spawn_armor()
 
     if ( !zm_is_game_start() )
     {
+        if ( ( self.platecarrierlevel ?? 1 ) >= 2 )
+        {
+            self.fresh_armor_bought_this_life = 1;
+            return;
+        }
+
+        if ( !self.fresh_armor_bought_this_life )
+        {
+            self force_armor_zero();
+        }
         return;
     }
 
@@ -171,7 +196,11 @@ function private on_armor_purchased( params )
 
 function private zm_armor_keep_at_t2()
 {
-    t2_max = level.var_1e9e024bcfca2274.var_ba2fc513d06dd9d5 ?? 100;
+    t2_max = 100;
+    if ( isdefined( level.var_1e9e024bcfca2274 ) && isdefined( level.var_1e9e024bcfca2274.var_ba2fc513d06dd9d5 ) )
+    {
+        t2_max = level.var_1e9e024bcfca2274.var_ba2fc513d06dd9d5;
+    }
 
     self.platecarrierlevel = 2;
     self.maxarmorhealth = t2_max;
@@ -445,7 +474,6 @@ function private zm_armor_regen_loop()
 
         prev_health = current;
 
-        // Regeneration is an effect of the Turtle Shell augment.
         if ( !turtle_shell_native_active() )
         {
             continue;
@@ -627,7 +655,11 @@ function private zm_armor_wallbuy_hint( usable, player )
         hint_data.title = &"cp_zmb/armor_repair";
         hint_data.description = &"cp_zmb/armor_repair_desc";
 
-        t2_max = level.var_1e9e024bcfca2274.var_ba2fc513d06dd9d5 ?? 100;
+        t2_max = 100;
+        if ( isdefined( level.var_1e9e024bcfca2274 ) && isdefined( level.var_1e9e024bcfca2274.var_ba2fc513d06dd9d5 ) )
+        {
+            t2_max = level.var_1e9e024bcfca2274.var_ba2fc513d06dd9d5;
+        }
 
         if ( ( player.armorhealth ?? 0 ) >= t2_max )
         {
@@ -638,17 +670,6 @@ function private zm_armor_wallbuy_hint( usable, player )
 
     return hint_data;
 }
-
-// ---------------------------------------------------------------------------
-// Special / elite / boss zombie damage
-//
-// Attacks from special, elite, hvt and boss zombies (Oni, Zursa, Caltheris, ...) now deal fixed damage by
-// strength: their weakest attacks do 25, their average attacks do 50, and their strongest attacks do 75.
-//
-// The game's zombies player damage handler (zm_player_damage) calls a shared function slot for every hit a
-// player takes, and nothing else in the game registers it, so ours goes there. It runs after the enemy's own
-// damage settings and before the augment damage reductions, so those still apply on top of the new values.
-// ---------------------------------------------------------------------------
 
 function private zm_special_damage_start()
 {
@@ -661,7 +682,6 @@ function private zm_special_damage_start()
         return;
     }
 
-    // If something else ever uses this slot, keep it and run it first.
     if ( utility::issharedfuncdefined( #"zm", #"hash_364bf98dfc68dd24" ) )
     {
         level.zm_special_damage_orig = level.sharedfuncs[ #"zm" ][ #"hash_364bf98dfc68dd24" ];
@@ -670,7 +690,6 @@ function private zm_special_damage_start()
     utility::registersharedfunc( #"zm", #"hash_364bf98dfc68dd24", &zm_special_damage_remap );
 }
 
-// self = the player being damaged. Returns the damage to use.
 function private zm_special_damage_remap( dmg_struct )
 {
     damage = dmg_struct.idamage;
@@ -680,7 +699,11 @@ function private zm_special_damage_remap( dmg_struct )
         damage = self [[ level.zm_special_damage_orig ]]( dmg_struct ) ?? damage;
     }
 
-    attacker = dmg_struct.eattacker.gunner ?? dmg_struct.eattacker;
+    attacker = dmg_struct.eattacker;
+    if ( isdefined( attacker ) && isdefined( attacker.gunner ) )
+    {
+        attacker = attacker.gunner;
+    }
 
     if ( !isdefined( attacker ) || isplayer( attacker ) || !isdefined( damage ) )
     {
@@ -689,13 +712,11 @@ function private zm_special_damage_remap( dmg_struct )
 
     category = attacker.aicategory;
 
-    if ( category != "special" && category != "elite" && category != "hvt" && category != "boss" )
+    if ( !isdefined( category ) || ( category != "special" && category != "elite" && category != "hvt" && category != "boss" ) )
     {
         return damage;
     }
 
-    // Instant kills: an attack that would kill the player outright, even from full health and full armor,
-    // keeps its damage instead of being capped.
     full_pool = self.maxhealth + ( self.maxarmorhealth ?? 0 );
 
     if ( damage >= full_pool )
@@ -703,8 +724,6 @@ function private zm_special_damage_remap( dmg_struct )
         return damage;
     }
 
-    // Tuning. Damage below chip_damage (damage-over-time ticks, small splash) is left alone, so a tick does
-    // not become 25. At or below weak_attack counts as a weak attack, at or above strong_attack as a strong one.
     chip_damage = 15;
     weak_attack = 35;
     strong_attack = 90;
