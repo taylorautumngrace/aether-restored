@@ -3,6 +3,7 @@
 #using script_3b64eb40368c1450;
 #using script_25a8fa2ac8997425;
 #using script_3a9d7a7cfee99885;
+#using script_52a6d55588cb0819;
 #using scripts\mp\interaction;
 #using scripts\mp\common\utility\game_utility;
 
@@ -58,7 +59,6 @@ zm_classic_perks_start()
         waitframe();
     }
 
-    // Set 1500 for survival/cursed survival modes, otherwise retain 3500
     mode = game_utility::getgametype();
     if (isdefined(mode) && (mode == "zm_rb_r_mod_survival" || mode == "zm_rb_survival"))
     {
@@ -589,6 +589,11 @@ zm_classic_perks_eternal_price()
     return 8000;
 }
 
+zm_classic_perks_machine_eternal_price()
+{
+    return 10000;
+}
+
 zm_classic_perks_has_all(player)
 {
     if (!isdefined(player))
@@ -784,11 +789,6 @@ zm_classic_perks_eternal_use(usable, player, perk)
     player callback::callback("zm_perk_machine_used", params);
 
     zm_classic_perks_make_eternal(player, target_perk);
-}
-
-zm_classic_perks_machine_eternal_price()
-{
-    return 10000;
 }
 
 zm_classic_perks_text(value)
@@ -998,7 +998,7 @@ zm_classic_perks_machine_eternal_hint(usable, player)
         return {#string:&"", #type:"HINT_NOBUTTON"};
     }
 
-    cost = zm_classic_perks_machine_eternal_price();
+    cost = 10000;
     hint = {#icon_text_value:cost, #var_776a268784e089af:&"shared_hintstrings/cost_essence", #buttoncallout:&"shared_hintstrings/perk_machine_buy", #description:&"ZM_RB_ECHO/PORTAL_TITLE_PERMANENT_PERK", #type:"HINT_BUTTON"};
 
     info = level._custom_perks[perk];
@@ -1021,61 +1021,82 @@ zm_classic_perks_machine_eternal_hint(usable, player)
 
 zm_classic_perks_make_eternal(player, perk)
 {
+    if (!isdefined(player) || !isdefined(perk))
+    {
+        return false;
+    }
+
     active = player zombie_perks::get_active_perks_str_array();
     if (!zm_classic_perks_is_perk_in_list(active, perk))
     {
         return false;
     }
+    if (isarray(player.perma_perks) && zm_classic_perks_is_perk_in_list(player.perma_perks, perk))
+    {
+        return false;
+    }
 
-    matched_entry = perk;
+    entry = perk;
     foreach (item in active)
     {
         if (zm_classic_perks_is_perk_in_list([item], perk))
         {
-            matched_entry = item;
+            entry = item;
             break;
         }
     }
 
-    saved = [];
-    if (isarray(player.perma_perks))
+    if (!isarray(player.perma_perks))
     {
-        foreach (existing in player.perma_perks)
+        player.perma_perks = [];
+    }
+    player.perma_perks[player.perma_perks.size] = entry;
+
+    revive_item = undefined;
+    foreach (item in player.perks_active)
+    {
+        if (zm_classic_perks_is_perk_in_list([item], "specialty_quickrevive"))
         {
-            saved[saved.size] = existing;
+            revive_item = item;
         }
     }
 
-    temp = [];
-    foreach (existing in saved)
+    order = [];
+    if (isdefined(revive_item) && !zm_classic_perks_is_perk_in_list([entry], "specialty_quickrevive"))
     {
-        temp[temp.size] = existing;
+        order[order.size] = revive_item;
     }
-    foreach (other in active)
+    order[order.size] = entry;
+    foreach (item in player.perks_active)
     {
-        if (!zm_classic_perks_is_perk_in_list([matched_entry], other) && !zm_classic_perks_is_perk_in_list(temp, other))
+        if (zm_classic_perks_is_perk_in_list([item], "specialty_quickrevive"))
         {
-            temp[temp.size] = other;
+            continue;
         }
+        if (zm_classic_perks_is_perk_in_list([item], entry))
+        {
+            continue;
+        }
+        order[order.size] = item;
     }
+    player.perks_active = order;
 
-    player.perma_perks = temp;
+    player zombie_perks::function_c11ba4bb3d0a676b();
 
-    player thread zombie_perks::function_ab9b4123275d6153(undefined, 1, 0, 0);
-    waitframe();
-
-    final = [];
-    foreach (existing in saved)
+    gesture = "cer_zm_vm_ges_001";
+    info = level._custom_perks[entry];
+    if (isdefined(info) && isdefined(info.perk_bottle_weapon))
     {
-        final[final.size] = existing;
+        gesture = info.perk_bottle_weapon;
     }
-    if (!zm_classic_perks_is_perk_in_list(final, matched_entry))
-    {
-        final[final.size] = matched_entry;
-    }
-    player.perma_perks = final;
 
-    player thread zombie_perks::function_c11ba4bb3d0a676b();
+    player thread hud_message::showsplash("sat_zm_permanent_perk", 0);
+    player thread zombie_perks::function_13cc8b1c31dda8c4(gesture);
+
+    eternal_params = spawnstruct();
+    eternal_params.perk = entry;
+    player callback::callback(#"hash_7432621eb6a7f04", eternal_params);
+
     return true;
 }
 
