@@ -23,6 +23,7 @@ This mod's GSCs were assisted by AI; specifically in finding the correct functio
 - Replaces the last stand SFX with the BO3 last stand SFX.
 - Replaces the level up SFX with the ones from BO3.
 - Replaces the VMP SFX with the BO3 VMP SFX
+- Replaces the XR3 Ion SFX with that of the BO3 PO6.
 - Replaces the zombies loading music with that of BO4's
 - Replaces the round change SFX with that of BO4's
 - Replaces the TEDD Task music with the Golden Pack-a-Punch theme from Tag Der Toten.
@@ -34,10 +35,10 @@ This mod's GSCs were assisted by AI; specifically in finding the correct functio
 - Replaces the game over music with classic-style sneak peaks of next map EE songs.
 - Replaces the Menu, Endgame, Multiplayer, and Warzone themes with Adrenaline from BO2.
 - Replaced Damned 8 with Damned 100AE
-- Replaces the Bloodthirsty Papasha SFX with that of the WAW PPSH.
-- Replaces the zombie noises with those from Zombies Chronicles
 - Replaces the FG42 SFX with that of the WAW version.
+- Replaces the Bloodthirsty Papasha SFX with that of the WAW PPSH.
 - Replaces the powerup SFX with that of Zombie Chronicles.
+- Replaces the zombie noises with those from Zombies Chronicles
 
 
 ---- Zombies Better Slaylist ----
@@ -117,9 +118,9 @@ FULL CREDITS:
 
 - @aspect.of.autumn	       | BO2 Eternal Perk, BO3 Level Up, BO4 TEDD Task, BOCW Exfil, Non-ZM SFX. BO1/2/3/SOE Alternative perk packs. "Better Slaylist". zm_armor_health_rework.gsc, zm_classic_behavior.gsc, zm_classiclike_perks.gsc
 
-- @.rezerorem		       	   | BO1 announcer, Ray Gun, Round Change; BO2 fire sale, Origins Box; BO3 last stand; classic box jingle, power ups, Quick Revive jingle, special round; Zombie SFX
+- @.rezerorem		       	   | BO1 announcer, Ray Gun, Round Change; BO2 fire sale, Origins Box; BO3 last stand; classic box jingle, Quick Revive jingle, special round; ZC Powerups, Zombie SFX
 
-- @niceornotnice  	       | BO1 1911, Dreadful Dresden, Miserable Bastille, Stormwrought Pantheon; BO2 AN94, MK35 ISR, Ray Gun MK2, VS Recon; BO3 KN44, VMP; BO4 Round Change, Classic Pack-A-Punch gun; WAW FG42, PPSH SFX. BO3/SOE perk packs.
+- @niceornotnice  	       | BO1 1911, Dreadful Dresden, Miserable Bastille, Stormwrought Pantheon; BO2 AN94, MK35 ISR, Ray Gun MK2, VS Recon; BO3 AK27, VMP, XR3 ION; BO4 Round Change, Classic Pack-A-Punch gun; WAW FG42, PPSH SFX. BO3/SOE perk packs.
 
 -  @phdflopperguy5		     | BO1/BO2/BO3/SOE/BO4 powerup packs, BO4 perk pack
 
