@@ -116,9 +116,9 @@ FULL CREDITS:
 
 - @.rezerorem		       	   | BO1 announcer, Ray Gun, Round Change; BO2 fire sale, Origins Box; BO3 last stand; classic box jingle, power ups, Quick Revive jingle, special round; Zombie SFX
 
-- @niceornotnice  	       | BO1 1911, Dreadful Dresden, Miserable Bastille, Stormwrought Pantheon; BO2 AN94, MK35 ISR, Ray Gun MK2, VS Recon; BO3 KN44, VMP; BO4 Round Change, Classic Pack-A-Punch gun; WAW PPSH SFX. BO3/SOE perk packs.
+- @niceornotnice  	       | BO1 1911, Dreadful Dresden, Miserable Bastille, Stormwrought Pantheon; BO2 AN94, MK35 ISR, Ray Gun MK2, VS Recon; BO3 KN44, VMP; BO4 Round Change, Classic Pack-A-Punch gun; WAW FG42, PPSH SFX. BO3/SOE perk packs.
 
--  @phdflopperguy5		       | BO1/BO2/BO3/SOE/BO4 powerup packs, BO4 perk pack
+-  @phdflopperguy5		     | BO1/BO2/BO3/SOE/BO4 powerup packs, BO4 perk pack
 
 - @siguess420		      	   | Damned 100AE, BO1/2 Alternative perk packs.
 
@@ -134,7 +134,6 @@ FULL CREDITS:
 
 
 ---- TO-DO BEFORE REV 2 ----
-- Survival maps have reduced Wunderfizz prices in "Classic-Like Perks"
 - Create and integrate a "Disabled Crafting Table" GSC.
 - Create and integrate "Better Perks" GSC.
 - Create and integrate "Gobblegum Tweaks" GSC.
