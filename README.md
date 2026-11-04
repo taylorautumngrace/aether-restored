@@ -38,6 +38,7 @@ This mod's GSCs were assisted by AI; specifically in finding the correct functio
 - Replaces the zombie noises with those from Zombies Chronicles
 
 ---- Zombies Better Slaylist ----
+
 All Slaylist songs have been replaced! The new songs are:
 
 - The One		 	                | Elena Siegman, Kevin Sherwood			                   	 | Shi No Numa
