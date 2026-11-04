@@ -1,6 +1,6 @@
 Aether Restored - primarily made by @aspect.of.autumn, @.rezerorem, and @niceornotnice
 
-This mod, as of Revision 1, is broken down into an audio folder, an images folder, and a scripts folder.
+This mod, as of Version 1, is broken down into an audio folder, an images folder, and a scripts folder.
 
 This mod's GSCs were assisted by AI; specifically in finding the correct functions to call and debugging.
 
