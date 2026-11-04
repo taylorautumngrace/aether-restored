@@ -125,9 +125,9 @@ FULL CREDITS:
 
 - @i0v		      	         | zm_armor_health_rework.gsc.
 
-- @doefiend		       	     | BO2 Alternative perk pack.
+- @grum_sudo		       	   | zm_armor_health_rework.gsc.
 
-- @grum_sudo		       	   | zm_classic_behavior.gsc.
+- @doefiend		       	     | BO2 Alternative perk pack.
 
 - @TheVanguardShinobi	     | Extensive testing.
 
