@@ -4,6 +4,7 @@
 #using script_25a8fa2ac8997425;
 #using script_3a9d7a7cfee99885;
 #using scripts\mp\interaction;
+#using scripts\mp\common\utility\game_utility;
 
 autoexec zm_classic_perks_init()
 {
@@ -56,7 +57,17 @@ zm_classic_perks_start()
     {
         waitframe();
     }
-    level._custom_perks["specialty_choice"].cost = 1500;
+
+    // Set 1500 for survival/cursed survival modes, otherwise retain 3500
+    mode = game_utility::getgametype();
+    if (isdefined(mode) && (mode == "zm_rb_r_mod_survival" || mode == "zm_rb_survival"))
+    {
+        level._custom_perks["specialty_choice"].cost = 1500;
+    }
+    else
+    {
+        level._custom_perks["specialty_choice"].cost = 3500;
+    }
 }
 
 zm_classic_perks_perk_from_hint(hint)
@@ -226,7 +237,16 @@ zm_classic_perks_price(perk)
         level.zm_classic_perk_prices["specialty_w_mod"] = 2000;
         level.zm_classic_perk_prices["specialty_y_mod"] = 4000;
         level.zm_classic_perk_prices["specialty_z_mod"] = 4000;
-        level.zm_classic_perk_prices["specialty_choice"] = 3500;
+
+        mode = game_utility::getgametype();
+        if (isdefined(mode) && (mode == "zm_rb_r_mod_survival" || mode == "zm_rb_survival"))
+        {
+            level.zm_classic_perk_prices["specialty_choice"] = 1500;
+        }
+        else
+        {
+            level.zm_classic_perk_prices["specialty_choice"] = 3500;
+        }
     }
 
     if (!isstring(perk))
@@ -318,14 +338,12 @@ zm_classic_perks_hint_wrapper(usable, player)
         return {#string:&"", #type:"HINT_NOBUTTON"};
     }
 
-    // Owning every perk means there is nothing to buy here, so with no power
-    // hide the prompt entirely instead of showing "need power".
-    if (isdefined(player) && zm_classic_perks_has_all(player) && zm_classic_perks_machine_off(usable))
-    {
-        return {#string:&"", #type:"HINT_NOBUTTON"};
-    }
-
     hint = [[ orig ]](usable, player);
+
+    if (isdefined(player) && zm_classic_perks_has_all(player))
+    {
+        return zm_classic_perks_machine_eternal_hint(usable, player);
+    }
 
     if (!isstruct(hint))
     {
@@ -388,6 +406,12 @@ zm_classic_perks_use_wrapper(player)
         return;
     }
 
+    if (isdefined(player) && zm_classic_perks_has_all(player))
+    {
+        self thread zm_classic_perks_machine_eternal_use(self, player);
+        return;
+    }
+
     if (isdefined(level.gametypebundle.var_5fca731c160ce025) && level.gametypebundle.var_5fca731c160ce025 && isdefined(player))
     {
         perk = self.script_notify;
@@ -438,7 +462,7 @@ zm_classic_perks_wunderfizz_use(player)
     }
     if (zm_classic_perks_has_all(player))
     {
-        zm_classic_perks_eternal_use(self, player, "specialty_choice");
+        self thread zm_classic_perks_eternal_use(self, player, "specialty_choice");
         return;
     }
     if (zm_classic_perks_at_limit(player))
@@ -518,7 +542,6 @@ zm_classic_perks_wunderfizz_use(player)
 
 zm_classic_perks_wunderfizz_hint(usable, player)
 {
-
     if (!isdefined(player) || !isdefined(usable))
     {
         return {#string:&"", #type:"HINT_NOICON"};
@@ -535,7 +558,7 @@ zm_classic_perks_wunderfizz_hint(usable, player)
 
     if (zm_classic_perks_has_all(player))
     {
-        return zm_classic_perks_eternal_hint(usable, player, "specialty_choice");
+        return zm_classic_perks_eternal_hint(usable, player, hint, "specialty_choice");
     }
     if (usable getscriptablepartstate("base") == "power_off")
     {
@@ -561,11 +584,6 @@ zm_classic_perks_wunderfizz_hint(usable, player)
     return hint;
 }
 
-zm_classic_perks_trace(text)
-{
-    iprintln("classic perks: " + text);
-}
-
 zm_classic_perks_eternal_price()
 {
     return 8000;
@@ -577,7 +595,7 @@ zm_classic_perks_has_all(player)
     {
         return false;
     }
-    return player zombie_perks::function_cda78d45986a51a0();
+    return istrue(player zombie_perks::function_cda78d45986a51a0());
 }
 
 zm_classic_perks_machine_off(usable)
@@ -604,39 +622,83 @@ zm_classic_perks_machine_off(usable)
     return false;
 }
 
-// Eternal perks are only on offer when the player owns every perk in the game
-// and at least one of them is not eternal yet.
+zm_classic_perks_is_perk_in_list(list, perk)
+{
+    if (!isarray(list) || !isdefined(perk))
+    {
+        return false;
+    }
+
+    perk_hash = isstring(perk) ? getxhash(perk) : perk;
+
+    foreach (item in list)
+    {
+        if (!isdefined(item))
+        {
+            continue;
+        }
+        if (item == perk)
+        {
+            return true;
+        }
+        item_hash = isstring(item) ? getxhash(item) : item;
+        if (item_hash == perk_hash)
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
+zm_classic_perks_get_non_eternal_perks(player)
+{
+    candidates = [];
+    if (!isdefined(player))
+    {
+        return candidates;
+    }
+
+    active = player zombie_perks::get_active_perks_str_array();
+    if (!isarray(active))
+    {
+        return candidates;
+    }
+
+    foreach (perk in active)
+    {
+        if (!isdefined(perk))
+        {
+            continue;
+        }
+        if (!isarray(player.perma_perks) || !zm_classic_perks_is_perk_in_list(player.perma_perks, perk))
+        {
+            candidates[candidates.size] = perk;
+        }
+    }
+    return candidates;
+}
+
 zm_classic_perks_can_go_eternal(player)
 {
     if (!zm_classic_perks_has_all(player))
     {
         return false;
     }
-    active = player zombie_perks::get_active_perks_str_array();
-    if (!isarray(active))
-    {
-        return false;
-    }
-    if (isdefined(player.perma_perks))
-    {
-        active = arrayremove(active, player.perma_perks);
-    }
-    if (active.size == 0)
-    {
-        return false;
-    }
-    return true;
+    candidates = zm_classic_perks_get_non_eternal_perks(player);
+    return candidates.size > 0;
 }
 
-zm_classic_perks_eternal_hint(usable, player, perk)
+zm_classic_perks_eternal_hint(usable, player, orig_hint, perk)
 {
-    if (zm_classic_perks_machine_off(usable) || player.interactions_disabled || !zm_classic_perks_can_go_eternal(player))
+    if (zm_classic_perks_machine_off(usable))
+    {
+        return {#string:&"", #type:"HINT_NOBUTTON"};
+    }
+    if (player.interactions_disabled || !zm_classic_perks_can_go_eternal(player))
     {
         return {#string:&"", #type:"HINT_NOBUTTON"};
     }
 
-    // The reward is a random perk, so always show the generic random-perk entry
-    // instead of the icon of whichever machine the player is standing at.
     perk = "specialty_choice";
 
     cost = zm_classic_perks_eternal_price();
@@ -671,28 +733,30 @@ zm_classic_perks_eternal_use(usable, player, perk)
         return;
     }
 
-    zm_classic_perks_trace("eternal: use called");
+    player endon(#"disconnect");
+    player endon(#"death");
+    level endon(#"game_ended");
 
-    if (player.interactions_disabled || player.insertingarmorplate)
+    if (player.interactions_disabled || istrue(player.insertingarmorplate))
     {
-        zm_classic_perks_trace("eternal: stopped, interactions disabled");
         return;
     }
     if (zm_classic_perks_machine_off(usable))
     {
-        zm_classic_perks_trace("eternal: stopped, no power");
         return;
     }
-    if (level.var_c139731c583cae6b || !player val::get("allow_zm_perks"))
+    if (istrue(level.var_c139731c583cae6b) || !player val::get("allow_zm_perks"))
     {
-        zm_classic_perks_trace("eternal: stopped, perks not allowed");
         return;
     }
-    if (!zm_classic_perks_can_go_eternal(player))
+
+    candidates = zm_classic_perks_get_non_eternal_perks(player);
+    if (candidates.size == 0)
     {
-        zm_classic_perks_trace("eternal: stopped, nothing left to make eternal");
         return;
     }
+
+    target_perk = candidates[randomint(candidates.size)];
 
     cost = zm_classic_perks_eternal_price();
     currency = #"essence";
@@ -702,11 +766,8 @@ zm_classic_perks_eternal_use(usable, player, perk)
     }
     if (!player currency::attempt_purchase(currency, cost, 1, undefined, #"perk"))
     {
-        zm_classic_perks_trace("eternal: stopped, purchase failed, cost " + cost);
         return;
     }
-
-    zm_classic_perks_trace("eternal: paid " + cost);
 
     mdl = usable;
     if (isdefined(usable.s_perk_machine) && isdefined(usable.s_perk_machine.mdl_perk_machine))
@@ -722,26 +783,360 @@ zm_classic_perks_eternal_use(usable, player, perk)
     params.perk_machine = usable;
     player callback::callback("zm_perk_machine_used", params);
 
-    before = 0;
-    if (isdefined(player.perma_perks))
+    zm_classic_perks_make_eternal(player, target_perk);
+}
+
+zm_classic_perks_machine_eternal_price()
+{
+    return 10000;
+}
+
+zm_classic_perks_text(value)
+{
+    if (!isdefined(value))
     {
-        before = player.perma_perks.size;
+        return "undefined";
+    }
+    if (isstring(value))
+    {
+        return value;
+    }
+    ids = zm_classic_perks_ids();
+    foreach (id in ids)
+    {
+        if (getxhash(id) == value)
+        {
+            return id;
+        }
+    }
+    return "hash_value";
+}
+
+zm_classic_perks_perk_from_registry(key)
+{
+    if (!isdefined(key) || !isarray(level._custom_perks))
+    {
+        return undefined;
     }
 
-    player zombie_perks::function_ab9b4123275d6153(undefined, 1, 0, 1);
+    candidate = zm_classic_perks_normalize_perk(key);
+    if (isdefined(zm_classic_perks_price(candidate)))
+    {
+        return candidate;
+    }
 
-    if (isdefined(player.perma_perks) && player.perma_perks.size > before)
+    info = level._custom_perks[key];
+    if (!isdefined(info) || !isdefined(info.hint_name))
     {
-        bought = spawnstruct();
-        bought.perkref = player.perma_perks[player.perma_perks.size - 1];
-        bought.cost = cost;
-        bought.currency = currency;
-        bought.source = #"perk_machine";
-        player callback::callback("zm_perk_purchased", bought);
-        zm_classic_perks_trace("eternal: granted " + bought.perkref);
+        return undefined;
     }
-    else
+
+    ids = zm_classic_perks_ids();
+    foreach (perk_id in ids)
     {
-        zm_classic_perks_trace("eternal: paid but no perk became eternal");
+        other = level._custom_perks[perk_id];
+        if (isdefined(other) && isdefined(other.hint_name) && other.hint_name == info.hint_name)
+        {
+            return perk_id;
+        }
     }
+    return undefined;
+}
+
+zm_classic_perks_perk_from_scriptable(text)
+{
+    if (!isdefined(text) || !isstring(text))
+    {
+        return undefined;
+    }
+
+    text = tolower(text);
+    if (issubstr(text, "juggernog"))
+    {
+        return "specialty_juggernog";
+    }
+    if (issubstr(text, "quick_revive") || issubstr(text, "quickrevive"))
+    {
+        return "specialty_quickrevive";
+    }
+    if (issubstr(text, "speed_cola") || issubstr(text, "speedcola"))
+    {
+        return "specialty_speedcola";
+    }
+    if (issubstr(text, "staminup") || issubstr(text, "stamin_up"))
+    {
+        return "specialty_staminup";
+    }
+    if (issubstr(text, "death_perception"))
+    {
+        return "specialty_death_perception";
+    }
+    if (issubstr(text, "deadshot"))
+    {
+        return "specialty_deadshot";
+    }
+    if (issubstr(text, "phd_flopper") || issubstr(text, "phdflopper"))
+    {
+        return "specialty_phd_flopper";
+    }
+    if (issubstr(text, "vulture_aid") || issubstr(text, "vultureaid"))
+    {
+        return "specialty_vulture_aid";
+    }
+    if (issubstr(text, "elemental_pop") || issubstr(text, "elementalpop"))
+    {
+        return "specialty_elemental_pop";
+    }
+    if (issubstr(text, "_d_mod"))
+    {
+        return "specialty_d_mod";
+    }
+    if (issubstr(text, "_m_mod"))
+    {
+        return "specialty_m_mod";
+    }
+    if (issubstr(text, "_w_mod"))
+    {
+        return "specialty_w_mod";
+    }
+    if (issubstr(text, "_y_mod"))
+    {
+        return "specialty_y_mod";
+    }
+    if (issubstr(text, "_z_mod"))
+    {
+        return "specialty_z_mod";
+    }
+    return undefined;
+}
+
+zm_classic_perks_machine_perk(usable)
+{
+    if (!isdefined(usable))
+    {
+        return undefined;
+    }
+
+    perk = usable.zm_cp_eternal_perk;
+    if (isdefined(zm_classic_perks_price(perk)))
+    {
+        return perk;
+    }
+
+    perk = usable.zm_cp_perk;
+    if (isdefined(zm_classic_perks_price(perk)))
+    {
+        return perk;
+    }
+
+    perk = zm_classic_perks_perk_from_registry(usable.script_notify);
+
+    if (!isdefined(perk) && isdefined(usable.s_perk_machine))
+    {
+        perk = zm_classic_perks_perk_from_registry(usable.s_perk_machine.script_noteworthy);
+        if (!isdefined(perk))
+        {
+            perk = zm_classic_perks_perk_from_scriptable(usable.s_perk_machine.str_scriptable);
+        }
+    }
+
+    if (!isdefined(perk))
+    {
+        perk = zm_classic_perks_perk_from_scriptable(usable.str_scriptable);
+    }
+
+    if (isdefined(perk) && !isstring(perk))
+    {
+        perk = zm_classic_perks_text(perk);
+    }
+
+    if (isdefined(perk) && perk != "hash_value" && perk != "undefined")
+    {
+        usable.zm_cp_eternal_perk = perk;
+        return perk;
+    }
+    return undefined;
+}
+
+zm_classic_perks_can_make_eternal(player, perk)
+{
+    if (!isdefined(player) || !isdefined(perk))
+    {
+        return false;
+    }
+    if (!zm_classic_perks_has_all(player))
+    {
+        return false;
+    }
+
+    active = player zombie_perks::get_active_perks_str_array();
+    if (!zm_classic_perks_is_perk_in_list(active, perk))
+    {
+        return false;
+    }
+    if (isarray(player.perma_perks) && zm_classic_perks_is_perk_in_list(player.perma_perks, perk))
+    {
+        return false;
+    }
+    return true;
+}
+
+zm_classic_perks_machine_eternal_hint(usable, player)
+{
+    if (zm_classic_perks_machine_off(usable))
+    {
+        return {#string:&"", #type:"HINT_NOBUTTON"};
+    }
+    if (player.interactions_disabled)
+    {
+        return {#string:&"", #type:"HINT_NOBUTTON"};
+    }
+
+    perk = zm_classic_perks_machine_perk(usable);
+    if (!isdefined(perk) || !zm_classic_perks_can_make_eternal(player, perk))
+    {
+        return {#string:&"", #type:"HINT_NOBUTTON"};
+    }
+
+    cost = zm_classic_perks_machine_eternal_price();
+    hint = {#icon_text_value:cost, #var_776a268784e089af:&"shared_hintstrings/cost_essence", #buttoncallout:&"shared_hintstrings/perk_machine_buy", #description:&"ZM_RB_ECHO/PORTAL_TITLE_PERMANENT_PERK", #type:"HINT_BUTTON"};
+
+    info = level._custom_perks[perk];
+    if (isdefined(info))
+    {
+        hint.icon = info.icon;
+        hint.title = info.hint_name;
+    }
+
+    currency = currency::get_perk_machine_currency(perk);
+    if (!player currency::can_afford(currency, cost))
+    {
+        hint.aux_text = &"shared_hintstrings/not_enough_essence";
+        hint.var_776a268784e089af = &"shared_hintstrings/cost_essence_not_enough";
+        hint.interactable = 0;
+    }
+
+    return hint;
+}
+
+zm_classic_perks_make_eternal(player, perk)
+{
+    active = player zombie_perks::get_active_perks_str_array();
+    if (!zm_classic_perks_is_perk_in_list(active, perk))
+    {
+        return false;
+    }
+
+    matched_entry = perk;
+    foreach (item in active)
+    {
+        if (zm_classic_perks_is_perk_in_list([item], perk))
+        {
+            matched_entry = item;
+            break;
+        }
+    }
+
+    saved = [];
+    if (isarray(player.perma_perks))
+    {
+        foreach (existing in player.perma_perks)
+        {
+            saved[saved.size] = existing;
+        }
+    }
+
+    temp = [];
+    foreach (existing in saved)
+    {
+        temp[temp.size] = existing;
+    }
+    foreach (other in active)
+    {
+        if (!zm_classic_perks_is_perk_in_list([matched_entry], other) && !zm_classic_perks_is_perk_in_list(temp, other))
+        {
+            temp[temp.size] = other;
+        }
+    }
+
+    player.perma_perks = temp;
+
+    player thread zombie_perks::function_ab9b4123275d6153(undefined, 1, 0, 0);
+    waitframe();
+
+    final = [];
+    foreach (existing in saved)
+    {
+        final[final.size] = existing;
+    }
+    if (!zm_classic_perks_is_perk_in_list(final, matched_entry))
+    {
+        final[final.size] = matched_entry;
+    }
+    player.perma_perks = final;
+
+    player thread zombie_perks::function_c11ba4bb3d0a676b();
+    return true;
+}
+
+zm_classic_perks_machine_eternal_use(usable, player)
+{
+    if (!isdefined(usable) || !isdefined(player))
+    {
+        return;
+    }
+
+    player endon(#"disconnect");
+    player endon(#"death");
+    level endon(#"game_ended");
+
+    if (player.interactions_disabled || istrue(player.insertingarmorplate))
+    {
+        return;
+    }
+    if (zm_classic_perks_machine_off(usable))
+    {
+        return;
+    }
+    if (istrue(level.var_c139731c583cae6b) || !player val::get("allow_zm_perks"))
+    {
+        return;
+    }
+
+    perk = zm_classic_perks_machine_perk(usable);
+    if (!isdefined(perk))
+    {
+        return;
+    }
+    if (!zm_classic_perks_can_make_eternal(player, perk))
+    {
+        return;
+    }
+
+    cost = zm_classic_perks_machine_eternal_price();
+    currency = #"essence";
+    if (isdefined(usable.s_perk_machine) && isdefined(usable.s_perk_machine.script_currency))
+    {
+        currency = usable.s_perk_machine.script_currency;
+    }
+    if (!player currency::attempt_purchase(currency, cost, 1, undefined, #"perk", perk))
+    {
+        return;
+    }
+
+    mdl = usable;
+    if (isdefined(usable.s_perk_machine) && isdefined(usable.s_perk_machine.mdl_perk_machine))
+    {
+        mdl = usable.s_perk_machine.mdl_perk_machine;
+    }
+    if (mdl isscriptableinstance() && mdl getscriptablehaspart("use") && mdl getscriptablepartstate("use") == "default")
+    {
+        mdl setscriptablepartstate("use", "purchase");
+    }
+
+    params = spawnstruct();
+    params.perk_machine = usable;
+    player callback::callback("zm_perk_machine_used", params);
+
+    zm_classic_perks_make_eternal(player, perk);
 }
