@@ -11,6 +11,7 @@ autoexec zm_armor_health_rework_init()
     level thread zm_plate_heal_start();
     level thread zm_armor_wallbuy_start();
     level thread zm_armor_t3_block_start();
+    level thread zm_special_damage_start();
 }
 
 autoexec bo3_health_init()
@@ -636,4 +637,92 @@ function private zm_armor_wallbuy_hint( usable, player )
     }
 
     return hint_data;
+}
+
+// ---------------------------------------------------------------------------
+// Special / elite / boss zombie damage
+//
+// Attacks from special, elite, hvt and boss zombies (Oni, Zursa, Caltheris, ...) now deal fixed damage by
+// strength: their weakest attacks do 25, their average attacks do 50, and their strongest attacks do 75.
+//
+// The game's zombies player damage handler (zm_player_damage) calls a shared function slot for every hit a
+// player takes, and nothing else in the game registers it, so ours goes there. It runs after the enemy's own
+// damage settings and before the augment damage reductions, so those still apply on top of the new values.
+// ---------------------------------------------------------------------------
+
+function private zm_special_damage_start()
+{
+    level endon( #"game_ended" );
+
+    mode = wait_for_gametype();
+
+    if ( getsubstr( mode, 0, 3 ) != "zm_" )
+    {
+        return;
+    }
+
+    // If something else ever uses this slot, keep it and run it first.
+    if ( utility::issharedfuncdefined( #"zm", #"hash_364bf98dfc68dd24" ) )
+    {
+        level.zm_special_damage_orig = level.sharedfuncs[ #"zm" ][ #"hash_364bf98dfc68dd24" ];
+    }
+
+    utility::registersharedfunc( #"zm", #"hash_364bf98dfc68dd24", &zm_special_damage_remap );
+}
+
+// self = the player being damaged. Returns the damage to use.
+function private zm_special_damage_remap( dmg_struct )
+{
+    damage = dmg_struct.idamage;
+
+    if ( isdefined( level.zm_special_damage_orig ) )
+    {
+        damage = self [[ level.zm_special_damage_orig ]]( dmg_struct ) ?? damage;
+    }
+
+    attacker = dmg_struct.eattacker.gunner ?? dmg_struct.eattacker;
+
+    if ( !isdefined( attacker ) || isplayer( attacker ) || !isdefined( damage ) )
+    {
+        return damage;
+    }
+
+    category = attacker.aicategory;
+
+    if ( category != "special" && category != "elite" && category != "hvt" && category != "boss" )
+    {
+        return damage;
+    }
+
+    // Instant kills: an attack that would kill the player outright, even from full health and full armor,
+    // keeps its damage instead of being capped.
+    full_pool = self.maxhealth + ( self.maxarmorhealth ?? 0 );
+
+    if ( damage >= full_pool )
+    {
+        return damage;
+    }
+
+    // Tuning. Damage below chip_damage (damage-over-time ticks, small splash) is left alone, so a tick does
+    // not become 25. At or below weak_attack counts as a weak attack, at or above strong_attack as a strong one.
+    chip_damage = 15;
+    weak_attack = 35;
+    strong_attack = 90;
+
+    if ( damage < chip_damage )
+    {
+        return damage;
+    }
+
+    if ( damage <= weak_attack )
+    {
+        return 25;
+    }
+
+    if ( damage >= strong_attack )
+    {
+        return 75;
+    }
+
+    return 50;
 }
