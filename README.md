@@ -1,6 +1,6 @@
 Aether Restored - primarily made by @aspect.of.autumn, @.rezerorem, and @niceornotnice
 
-This mod, as of Version 1.1.2, is broken down into an audio folder, an images folder, and a scripts folder.
+This mod, as of Version 1.2.1, is broken down into an audio folder, an images folder, and a scripts folder.
 
 This mod's GSCs were assisted by AI; specifically in finding the correct functions to call and debugging.
 
@@ -115,9 +115,9 @@ FULL CREDITS:
 
 - @niceornotnice  	       | BO1 1911, Dreadful Dresden, Miserable Bastille, Stormwrought Pantheon; BO2 AN94, MK35 ISR, Ray Gun MK2, VS Recon; BO3 VMP; BO4 Round Change, Classic Pack-A-Punch gun; WAW PPSH SFX. BO3/SOE perk packs.
 
-- @siguess420		      	   | Damned 100AE, BO1/2 Alternative perk packs.
+-  @phdflopperguy5		       | BO1/BO2/BO3/SOE/BO4 powerup packs, BO4 perk pack
 
-- @phdflopperguy5		       | BO3/SOE/BO4 powerup packs, BO4 perk pack
+- @siguess420		      	   | Damned 100AE, BO1/2 Alternative perk packs.
 
 - @mistergeneric		       | Classic style game over music.
 
