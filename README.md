@@ -80,6 +80,8 @@ zm_slaylist_times.gsc is needed due to times of new songs varying from the defau
 - Adds the Black Ops 4 perk icons.
 
 ---- Powerups ----
+- Adds more to the Black Ops 1 powerup icons.
+- Adds more to the Black ops 2 powerup icons.
 - Adds the Black Ops 3 powerup icons.
 - Adds the Black Ops 3 Shadows of Evil powerup icons.
 - Adds the Black Ops 4 powerup icons.
