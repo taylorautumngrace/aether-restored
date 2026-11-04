@@ -120,7 +120,7 @@ FULL CREDITS:
 
 - @.rezerorem		       	   | BO1 announcer, Ray Gun, Round Change; BO2 fire sale, Origins Box; BO3 last stand; classic box jingle, Quick Revive jingle, special round; ZC Powerups, Zombie SFX
 
-- @niceornotnice  	       | BO1 1911, Dreadful Dresden, Miserable Bastille, Stormwrought Pantheon; BO2 AN94, MK35 ISR, Ray Gun MK2, VS Recon; BO3 AK27, VMP, XR3 ION; BO4 Round Change, Classic Pack-A-Punch gun; WAW FG42, PPSH SFX. BO3/SOE perk packs.
+- @niceornotnice  	       | BO1 1911, Dreadful Dresden, Miserable Bastille, Stormwrought Pantheon; BO2 AN94, MK35 ISR, MPC25, Ray Gun MK2, VS Recon; BO3 AK27, VMP, XR3 ION; BO4 Round Change, Classic Pack-A-Punch gun; WAW FG42, PPSH SFX. BO3/SOE perk packs.
 
 -  @phdflopperguy5		     | BO1/BO2/BO3/SOE/BO4 powerup packs, BO4 perk pack
 
