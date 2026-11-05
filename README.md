@@ -1,3 +1,5 @@
+![Header Image](./aether-restored.png)
+
 Aether Restored - primarily made by @aspect.of.autumn, @.rezerorem, and @niceornotnice
 
 This mod, as of Version 2.0.0, is broken down into an audio folder, an images folder, and a scripts folder.
