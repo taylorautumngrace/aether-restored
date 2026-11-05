@@ -19,12 +19,14 @@ This mod's GSCs were assisted by AI; specifically in finding the correct functio
 - Replaces the MK35 ISR SFX with the BO2 M27 SFX
 - Replaces the Origins box SFX with that of the BO2 Origins box
 - Replaces the Ray Gun MK2 SFX with that of the BO2 Ray Gun MK2
+- Replaces the REV 46 SFX with that of the BO2 Skorpion EVO
 - Replaces the VSR Recon SFX with that of the BO2 DSR 50. SFX
 - Replaces the last stand SFX with the BO3 last stand SFX.
 - Replaces the level up SFX with the ones from BO3.
 - Replaces the VMP SFX with the BO3 VMP SFX
 - Replaces the XR3 Ion SFX with that of the BO3 PO6.
 - Replaces the zombies loading music with that of BO4's
+- Replaces the Maddox SFX with that of BO4's.
 - Replaces the round change SFX with that of BO4's
 - Replaces the TEDD Task music with the Golden Pack-a-Punch theme from Tag Der Toten.
 - Replaces the exfil music with the one from BOCW.
@@ -69,14 +71,14 @@ All Slaylist songs have been replaced! The new songs are:
 - No One There			          | Vicky Psarakis, Kevin Sherwood			                   | Totenreich
 - Evencry			                | Malukah, Cole Rolland, Kevin Sherwood			             | Kowakujo
 
-zm_slaylist_times.gsc is needed due to times of new songs varying from the default ones.
+zm_ae_slaylist_times.gsc is needed due to times of new songs varying from the default ones.
 
 
 ----------- Images Folder Breakdown -----------
 
 ---- Perks ----
-- Adds the Black Ops 1 perk icons, but with an alternative Melee Macchiato, Elemental Pop and Mystery Perk.
-- Adds the Black Ops 2 perk icons, but with an alternative Melee Macchiato, Elemental Pop, and Mystery Perk.
+- Adds the Black Ops 1 perk icons, but with an alternative Melee Macchiato, Elemental Pop 
+- Adds the Black Ops 2 perk icons, but with an alternative Melee Macchiato, Elemental Pop
 - Adds the Black Ops 3 perk icons.
 - Adds the Black Ops 3 perk icons, but with an alternative Elemental Pop.
 - Adds the Black Ops 3 Shadows of Evil perk icons.
@@ -93,8 +95,8 @@ zm_slaylist_times.gsc is needed due to times of new songs varying from the defau
 
 ----------- Scripts Folder Breakdown -----------
 
----- zm_armor_health_rework.gsc ----
-- Armor and Health system reworked! Made with code snippets from @grum_sudo and @i0v
+---- zm_ae_armor_health_rework.gsc ----
+- Made with code snippets from @grum_sudo and @i0v
 - BO3 health and damage values, with no damage scaling. 
 - Armor now always functions as if Turtle Shell was on.
 - Armor plates now always auto-equip, as if Armormatic was on. They restore 20% of a plate of armor instead of a full one
@@ -103,26 +105,29 @@ zm_slaylist_times.gsc is needed due to times of new songs varying from the defau
 - T2 armor now costs 5000. T3/Golden armor no longer exists: buying armor again at T2 refills it instead of upgrading.
 - Tweaked Boss/Elite/Special damage.
 
----- zm_classic_behavior.gsc ----
+
+---- zm_ae_classic_behavior.gsc ----
 - All armored zombies have been removed from the spawn pool; for the time being, this includes the Agni zombies on Kowakujo.
 - Zombie speed has been limited to be at 90% of their max speed.
 
----- zm_classiclike_perks.gsc ----
+---- zm_ae_classiclike_perks.gsc ----
 - Perks now have their BO3 prices, except for Elemental Pop (3500), Wisp Tea (2000), and Death Perception (2000).
 - Wunderfizz is now random, and costs 3500 per perk.
 - Once a player has every perk, you can return to the Wunderfizz and buy a random eternal perk for 8000.
 - Once a player has every perk, you can return to a perk machine and buy that eternal perk for 10000.
 
 
+
+
 FULL CREDITS:
 
-- @aspect.of.autumn	       | BO2 Eternal Perk, BO3 Level Up, BO4 TEDD Task, BOCW Exfil, Non-ZM SFX. BO1/2/3/SOE Alternative perk packs. "Better Slaylist". zm_armor_health_rework.gsc, zm_classic_behavior.gsc, zm_classiclike_perks.gsc
+- @aspect.of.autumn	            | BO3 Level Up, BO4 TEDD Task, BOCW Exfil, Non-ZM SFX. BO1/2/3/SOE Alternative perk packs. "Better Slaylist". zm_ae_armor_health_rework.gsc, zm_ae_classic_behavior.gsc, zm_ae_classiclike_perks.gsc, zm_ae_no_salvage.gsc
 
 - @.rezerorem		       	   | BO1 announcer, Ray Gun, Round Change; BO2 fire sale, Origins Box; BO3 last stand; classic box jingle, Quick Revive jingle, special round; ZC Powerups, Zombie SFX
 
-- @niceornotnice  	       | BO1 1911, Dreadful Dresden, Miserable Bastille, Stormwrought Pantheon; BO2 AN94, MK35 ISR, MPC25, Ray Gun MK2, VS Recon; BO3 AK27, VMP, XR3 ION; BO4 Round Change, Classic Pack-A-Punch gun; WAW FG42, PPSH SFX. BO3/SOE perk packs.
+- @niceornotnice  	       | BO1 1911, Dreadful Dresden, Miserable Bastille, Stormwrought Pantheon; BO2 AN94, MK35 ISR, MPC25, Ray Gun MK2, REV46, VS Recon; BO3 AK27, VMP, XR3 ION; BO4 Loading, Maddox, Round Change, Classic Pack-A-Punch gun; WAW FG42, PPSH SFX. BO3/SOE perk packs.
 
--  @phdflopperguy5		     | BO1/BO2/BO3/SOE/BO4 powerup packs, BO4 perk pack
+- @phdflopperguy5		     | BO1/BO2/BO3/SOE/BO4 powerup packs, BO4 perk pack
 
 - @siguess420		      	   | Damned 100AE, BO1/2 Alternative perk packs.
 
@@ -137,8 +142,8 @@ FULL CREDITS:
 - @TheVanguardShinobi	     | Extensive testing.
 
 
----- TO-DO BEFORE REV 2 ----
-- Create and integrate a "Disabled Crafting Table" GSC.
+---- TO-DO BEFORE V2 ----
+
 - Create and integrate "Better Perks" GSC.
 - Create and integrate "Gobblegum Tweaks" GSC.
 - Classic AI/Spawning, Agni restoration in "Classic Zombie Behavior".
