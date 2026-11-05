@@ -1,6 +1,6 @@
 Aether Restored - primarily made by @aspect.of.autumn, @.rezerorem, and @niceornotnice
 
-This mod, as of Version 1.1.4, is broken down into an audio folder, an images folder, and a scripts folder.
+This mod, as of Version 2.0.0, is broken down into an audio folder, an images folder, and a scripts folder.
 
 This mod's GSCs were assisted by AI; specifically in finding the correct functions to call and debugging.
 
@@ -142,7 +142,7 @@ FULL CREDITS:
 - @TheVanguardShinobi	     | Extensive testing.
 
 
----- TO-DO BEFORE V2 ----
+---- TO-DO BEFORE v3.0.0 ----
 
 - Create and integrate "Better Perks" GSC.
 - Create and integrate "Gobblegum Tweaks" GSC.
