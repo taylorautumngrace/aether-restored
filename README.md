@@ -141,6 +141,8 @@ FULL CREDITS:
 
 - @TheVanguardShinobi	     | Extensive testing.
 
+- @alfiiiii                | Icon/Header image.
+
 
 ---- TO-DO BEFORE v3.0.0 ----
 
