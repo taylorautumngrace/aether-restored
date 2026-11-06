@@ -1,5 +1,8 @@
 {
     "name": "Aether Restored",
     "author": "@aspect.of.autumn, @.rezerorem, @niceornotnice",
-    "version": "2.0.0"
+    "version": "2.0.0-beta",
+    "type": "assets, ui, script",
+    "description": "Aether Restored is a restoration of many classic systems and assets, while keeping many of them modern."
 }
+
